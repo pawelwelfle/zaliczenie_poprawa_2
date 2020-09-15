@@ -29,6 +29,7 @@ class MedicineDoserTest {
     private Clock clock;
 
     private MedicineDoser medicineDoser;
+    private MedicinePackage medicinePackage;
 
 
     private DosingResult resultWithSuccess = DosingResult.SUCCESS;
@@ -80,6 +81,15 @@ class MedicineDoserTest {
 
         Assertions.assertThrows(UnavailableMedicineException.class,
                 () -> medicineDoser.add(TEST_EXCEPTION_PACKAGE));
+    }
+
+    @Test
+    void lastMethod() {
+        medicineDoser.add(TEST_PACKAGE);
+        medicineDoser.dose(receipe);
+        verify(dosageLog).logEndDose(receipe.getMedicine(), receipe.getDose());
+        verify(dosageLog).logStartDose(receipe.getMedicine(), receipe.getDose());
+
     }
 
     @Test
